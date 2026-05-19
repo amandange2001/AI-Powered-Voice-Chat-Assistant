@@ -1,0 +1,54 @@
+# from fastapi import APIRouter, Request
+# from database import get_db_connection
+
+# router = APIRouter()
+
+# @router.post("/telegram/webhook")
+
+# async def telegram_webhook(request: Request):
+
+#     data = await request.json()
+
+#     callback_query = data.get("callback_query")
+
+#     if callback_query:
+
+#         callback_data = callback_query["data"]
+
+#         action, visitor_id = callback_data.split("_")
+
+#         conn = get_db_connection()
+
+#         cursor = conn.cursor()
+
+#         if action == "approve":
+
+#             query = """
+#             UPDATE visitors
+#             SET approval_status='APPROVED',
+#                 approved_at=NOW()
+#             WHERE visitor_id=%s
+#             """
+
+#             cursor.execute(query, (visitor_id,))
+
+#         elif action == "reject":
+
+#             query = """
+#             UPDATE visitors
+#             SET approval_status='REJECTED',
+#                 rejected_at=NOW()
+#             WHERE visitor_id=%s
+#             """
+
+#             cursor.execute(query, (visitor_id,))
+
+#         conn.commit()
+
+#         cursor.close()
+
+#         conn.close()
+
+#     return {
+#         "status": "success"
+#     }
